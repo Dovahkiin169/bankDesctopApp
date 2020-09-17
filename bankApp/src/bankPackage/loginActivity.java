@@ -4,18 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class loginActivity extends JFrame implements ActionListener, ItemListener {
+public class loginActivity extends JFrame implements ActionListener {
 
-    private JLabel labelUsername = new JLabel("Enter email: ");
-    private JLabel labelPassword = new JLabel("Enter password: ");
-    private JTextField textUsername = new JTextField(20);
-    private JPasswordField fieldPassword = new JPasswordField(20);
-    private JButton buttonLogin = new JButton("Login");
-    private JCheckBox chinButton = new JCheckBox("as Employee");
+    public JLabel labelUsername,labelPassword;
+    public JTextField textUsername;
+    public JPasswordField fieldPassword;
+    public JButton buttonLogin;
+    public JCheckBox chinButton;
 
     public loginActivity()  {
         super("BankApp");
 
+        labelUsername = new JLabel("Enter email: ");
+        labelPassword = new JLabel("Enter password: ");
+        textUsername = new JTextField(20);
+        fieldPassword = new JPasswordField(20);
+        buttonLogin = new JButton("Login");
+        chinButton = new JCheckBox("as Employee");
+        
         chinButton.setMnemonic(KeyEvent.VK_C);
         chinButton.setSelected(true);
 
@@ -49,7 +55,6 @@ public class loginActivity extends JFrame implements ActionListener, ItemListene
         constraints.anchor = GridBagConstraints.CENTER;
         newPanel.add(buttonLogin, constraints);
 
-        chinButton.addItemListener(this);
         buttonLogin.addActionListener(this);
 
         newPanel.setBorder(BorderFactory.createTitledBorder(
@@ -63,19 +68,9 @@ public class loginActivity extends JFrame implements ActionListener, ItemListene
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) { ex.printStackTrace(); }
 
         SwingUtilities.invokeLater(() -> new loginActivity().setVisible(true));
-    }
-
-    public void itemStateChanged(ItemEvent e) {
-        Object source = e.getItemSelectable();
-        if (source == chinButton) {
-            System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                    ? "SELECTED" : "DESELECTED");
-        }
     }
 
     @Override
