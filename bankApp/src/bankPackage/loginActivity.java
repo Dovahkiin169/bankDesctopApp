@@ -24,7 +24,7 @@ public class loginActivity extends JFrame implements ActionListener {
     public JLabel emailLabelR, passwordLabelR, peselLabelR, nameLabelR, name2LabelR,surnameLabelR, sexLabelR, birthDateLabelR,AddressLabelR, yearLabelR, monthLabelR, dayLabelR;
     public JTextField emailTextFieldR, passwordTextFieldR, peselTextFieldR, nameTextFieldR, name2TextFieldR,surnameTextFieldR, birthDateTextFieldR,AddressTextFieldR, yearTextFieldR, monthTextFieldR, dayTextFieldR;
     String[] chooseSex = {"m","w"};
-    public JComboBox sex = new JComboBox(chooseSex);
+    public JComboBox sex;
     public JButton registerButton;
 
 
@@ -35,7 +35,7 @@ public class loginActivity extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Login Panel */
-        /******************/
+        /******************
         loginPanel = new JPanel(new GridBagLayout());
         emailLabel = new JLabel("Enter email: ");
         passwordLabel = new JLabel("Enter password: ");
@@ -84,8 +84,74 @@ public class loginActivity extends JFrame implements ActionListener {
         /******************/
         /* Register Panel */
         /******************/
+        registerPanel = new JPanel(new GridBagLayout());
+        emailLabelR = new JLabel("Email: ");
+        passwordLabelR = new JLabel("Password: ");
+        peselLabelR = new JLabel("PESEL: ");
+        nameLabelR = new JLabel("Name: ");
+        name2LabelR = new JLabel("Second Name: ");
+        surnameLabelR = new JLabel("Surname: ");
+        sexLabelR = new JLabel("Sex: ");
+        birthDateLabelR = new JLabel("Birth Date: ");
+        AddressLabelR = new JLabel("Address: ");
+        yearLabelR = new JLabel("Year: ");
+        monthLabelR = new JLabel("Month: ");
+        dayLabelR = new JLabel("Day: ");
+        registerButton = new JButton("Register");
+        sex = new JComboBox(chooseSex);
 
+        emailTextFieldR = new JTextField(20);
+        passwordTextFieldR = new JPasswordField(20);
+        peselTextFieldR = new JPasswordField(20);
+        nameTextFieldR = new JPasswordField(20);
+        name2TextFieldR = new JPasswordField(20);
+        surnameTextFieldR = new JPasswordField(20);
+        birthDateTextFieldR = new JPasswordField(20);
+        AddressTextFieldR = new JPasswordField(20);
+        yearTextFieldR = new JPasswordField(20);
+        monthTextFieldR = new JPasswordField(20);
+        dayTextFieldR = new JPasswordField(20);
 
+        GridBagConstraints constraintsRegister = new GridBagConstraints();
+        constraintsRegister.anchor = GridBagConstraints.WEST;
+        constraintsRegister.insets = new Insets(10, 10, 10, 10);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 0;
+        registerPanel.add(emailLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        registerPanel.add(emailTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 1;
+        registerPanel.add(passwordLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        registerPanel.add(passwordTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 2;
+        registerPanel.add(peselLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        registerPanel.add(peselTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 3;
+        registerPanel.add(nameLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        registerPanel.add(nameTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridy = 4;
+        constraintsRegister.gridwidth = 2;
+        constraintsRegister.anchor = GridBagConstraints.CENTER;
+        registerPanel.add(registerButton, constraintsRegister);
+
+        registerButton.addActionListener(this);
+
+        registerPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), "Register Panel"));
+
+        add(registerPanel);
         /******************/
         pack();
         setLocationRelativeTo(null);
