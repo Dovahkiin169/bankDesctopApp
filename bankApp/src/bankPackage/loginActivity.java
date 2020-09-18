@@ -251,6 +251,7 @@ public class loginActivity extends JFrame implements ActionListener {
             loginPanel.setVisible(false);
         }
         else if(source == registerButton && canRegister()) {
+            RegisterOperation();
             System.out.println("register user");
         }
     }
@@ -372,7 +373,6 @@ public class loginActivity extends JFrame implements ActionListener {
             return false;
         }
 
-        System.out.println();
         return true;
     }
 
@@ -413,9 +413,8 @@ public class loginActivity extends JFrame implements ActionListener {
             con.close();
         }catch(Exception e){ System.out.println(e);}
     }
-    public void RegisterOperation(String user_status) {
+    public void RegisterOperation() {
         try{
-
             String fileName = "database.properties";
             ClassLoader classLoader = getClass().getClassLoader();
             URL resource = classLoader.getResource(fileName);
@@ -431,7 +430,7 @@ public class loginActivity extends JFrame implements ActionListener {
             passwordTextFieldR.getText();
             ResultSet rs=stmt.executeQuery("select bank.register('"+passwordTextFieldR.getText()+"','"+emailTextFieldR.getText()+"','"+peselTextFieldR.getText()+"','"+nameTextFieldR.getText()+"','"+name2TextFieldR.getText()+"','"+surnameTextFieldR.getText()+"','"+AddressTextFieldR.getText()+"','"+sex.getSelectedItem()+"','"+yearTextFieldR.getText()+"-"+monthTextFieldR.getText()+"-"+dayTextFieldR.getText()+"');");
             while(rs.next())
-                System.out.println(rs.getInt(1));
+                System.out.println(rs.getDate(1));
             con.close();
         }catch(Exception e){ System.out.println(e);}
     }
