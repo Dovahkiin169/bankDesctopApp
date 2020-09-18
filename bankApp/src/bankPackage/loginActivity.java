@@ -84,18 +84,27 @@ public class loginActivity extends JFrame implements ActionListener {
             System.out.println("Login Employee");
         else if(source == buttonLogin && !chinButton.isSelected() && canLogin())
             System.out.println("Login User");
-        else if(!canLogin()) {
-            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
-                    "Login or password cannot be empty",
-                    "Warning",
-                    JOptionPane.WARNING_MESSAGE);}
     }
 
     public boolean canLogin() {
-        if (EV.validate(textUsername.getText()))
-            return fieldPassword.getPassword().length != 0;
-        else
+        if (EV.validate(textUsername.getText())) {
+             if(fieldPassword.getPassword().length != 0)
+                 return true;
+             else {
+                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                         "Password cannot be empty",
+                         "Warning",
+                         JOptionPane.WARNING_MESSAGE);
+                 return false;
+             }
+        }
+        else {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Please enter correct email address",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
             return false;
+        }
     }
 }
 
@@ -103,8 +112,7 @@ public class loginActivity extends JFrame implements ActionListener {
 
 class EmailValidator {
 
-    private Pattern pattern;
-    private Matcher matcher;
+    private final Pattern pattern;
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -116,7 +124,7 @@ class EmailValidator {
 
     public boolean validate(final String hex) {
 
-        matcher = pattern.matcher(hex);
+        Matcher matcher = pattern.matcher(hex);
         return matcher.matches();
 
     }
