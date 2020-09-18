@@ -3,8 +3,8 @@ package bankPackage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.sql.*;
+import java.util.Arrays;
 
 public class loginActivity extends JFrame implements ActionListener {
 
@@ -13,7 +13,7 @@ public class loginActivity extends JFrame implements ActionListener {
     public JPasswordField fieldPassword;
     public JButton buttonLogin;
     public JCheckBox chinButton;
-    EmailValidator EV = new EmailValidator();
+    emailValidator EV = new emailValidator();
 
     public loginActivity()  {
         super("BankApp");
@@ -80,10 +80,14 @@ public class loginActivity extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == buttonLogin && chinButton.isSelected() && canLogin())
+        if (source == buttonLogin && chinButton.isSelected() && canLogin()) {
+            getConnection();
             System.out.println("Login Employee");
-        else if(source == buttonLogin && !chinButton.isSelected() && canLogin())
+        }
+        else if(source == buttonLogin && !chinButton.isSelected() && canLogin()) {
+            getConnection();
             System.out.println("Login User");
+        }
     }
 
     public boolean canLogin() {
@@ -106,26 +110,18 @@ public class loginActivity extends JFrame implements ActionListener {
             return false;
         }
     }
-}
 
-
-
-class EmailValidator {
-
-    private final Pattern pattern;
-
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-    public EmailValidator() {
-        pattern = Pattern.compile(EMAIL_PATTERN);
+    public void getConnection() {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con=DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/bank","root","");
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("select login_id from users where email_address = '"+textUsername.getText()+"'AND password = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
+            while(rs.next())
+                System.out.println(rs.getInt(1));
+            con.close();
+        }catch(Exception e){ System.out.println(e);}
     }
 
-    public boolean validate(final String hex) {
-
-        Matcher matcher = pattern.matcher(hex);
-        return matcher.matches();
-
-    }
 }
