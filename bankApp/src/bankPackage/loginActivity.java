@@ -106,11 +106,10 @@ public class loginActivity extends JFrame implements ActionListener {
         nameTextFieldR = new JPasswordField(20);
         name2TextFieldR = new JPasswordField(20);
         surnameTextFieldR = new JPasswordField(20);
-        birthDateTextFieldR = new JPasswordField(20);
         AddressTextFieldR = new JPasswordField(20);
-        yearTextFieldR = new JPasswordField(20);
-        monthTextFieldR = new JPasswordField(20);
-        dayTextFieldR = new JPasswordField(20);
+        yearTextFieldR = new JPasswordField(4);
+        monthTextFieldR = new JPasswordField(2);
+        dayTextFieldR = new JPasswordField(2);
 
         GridBagConstraints constraintsRegister = new GridBagConstraints();
         constraintsRegister.anchor = GridBagConstraints.WEST;
@@ -118,31 +117,100 @@ public class loginActivity extends JFrame implements ActionListener {
 
         constraintsRegister.gridx = 0;
         constraintsRegister.gridy = 0;
+        constraintsRegister.gridwidth = 1;
         registerPanel.add(emailLabelR, constraintsRegister);
         constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
         registerPanel.add(emailTextFieldR, constraintsRegister);
 
         constraintsRegister.gridx = 0;
         constraintsRegister.gridy = 1;
+        constraintsRegister.gridwidth = 1;
         registerPanel.add(passwordLabelR, constraintsRegister);
         constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
         registerPanel.add(passwordTextFieldR, constraintsRegister);
 
         constraintsRegister.gridx = 0;
         constraintsRegister.gridy = 2;
+        constraintsRegister.gridwidth = 1;
         registerPanel.add(peselLabelR, constraintsRegister);
         constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
         registerPanel.add(peselTextFieldR, constraintsRegister);
 
         constraintsRegister.gridx = 0;
         constraintsRegister.gridy = 3;
+        constraintsRegister.gridwidth = 1;
         registerPanel.add(nameLabelR, constraintsRegister);
         constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
         registerPanel.add(nameTextFieldR, constraintsRegister);
 
-        constraintsRegister.gridx = 1;
+        constraintsRegister.gridx = 0;
         constraintsRegister.gridy = 4;
-        constraintsRegister.gridwidth = 2;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(name2LabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
+        registerPanel.add(name2TextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 5;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(surnameLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
+        registerPanel.add(surnameTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 6;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(sexLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
+        registerPanel.add(sex, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 7;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(birthDateLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(yearLabelR, constraintsRegister);
+        constraintsRegister.insets = new Insets(0,0,0,0);
+        constraintsRegister.gridx = 2;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(yearTextFieldR, constraintsRegister);
+        constraintsRegister.insets = new Insets(0,0,0,0);
+        constraintsRegister.gridx = 3;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(monthLabelR, constraintsRegister);
+        constraintsRegister.insets = new Insets(0,0,0,0);
+        constraintsRegister.gridx = 4;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(monthTextFieldR, constraintsRegister);
+        constraintsRegister.insets = new Insets(0,0,0,0);
+        constraintsRegister.gridx = 5;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(dayLabelR, constraintsRegister);
+        constraintsRegister.insets = new Insets(0,0,0,0);
+        constraintsRegister.gridx = 6;
+        constraintsRegister.gridwidth = 1;
+        registerPanel.add(dayTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 0;
+        constraintsRegister.gridy = 8;
+        constraintsRegister.gridwidth = 1;
+        constraintsRegister.insets = new Insets(10,10,0,0);
+        registerPanel.add(AddressLabelR, constraintsRegister);
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridwidth = 6;
+        registerPanel.add(AddressTextFieldR, constraintsRegister);
+
+        constraintsRegister.gridx = 1;
+        constraintsRegister.gridy = 9;
+        constraintsRegister.gridwidth = 7;
         constraintsRegister.anchor = GridBagConstraints.CENTER;
         registerPanel.add(registerButton, constraintsRegister);
 
@@ -152,6 +220,7 @@ public class loginActivity extends JFrame implements ActionListener {
                 BorderFactory.createEtchedBorder(), "Register Panel"));
 
         add(registerPanel);
+     //   registerPanel.setVisible(false);
         /******************/
         pack();
         setLocationRelativeTo(null);
@@ -177,6 +246,8 @@ public class loginActivity extends JFrame implements ActionListener {
             LoginOperation("user");
             System.out.println("Login User");
             loginPanel.setVisible(false);
+            add(registerPanel);
+            registerPanel.setVisible(true);
         }
     }
 
