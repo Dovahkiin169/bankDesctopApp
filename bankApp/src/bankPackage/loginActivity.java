@@ -8,6 +8,8 @@ import java.sql.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.YearMonth;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -247,8 +249,6 @@ public class loginActivity extends JFrame implements ActionListener {
             LoginOperation("user");
             System.out.println("Login User");
             loginPanel.setVisible(false);
-            add(registerPanel);
-            registerPanel.setVisible(true);
         }
         else if(source == registerButton && canRegister()) {
             System.out.println("register user");
@@ -340,6 +340,30 @@ public class loginActivity extends JFrame implements ActionListener {
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR) - 16;
+        if(Integer.parseInt(yearTextFieldR.getText()) > currentYear) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "You must be at least 16 to register bank account",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(Integer.parseInt(monthTextFieldR.getText()) > 12) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Incorrect value, in year only 12 month",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        YearMonth yearMonthObject = YearMonth.of(Integer.parseInt(yearTextFieldR.getText()), Integer.parseInt(monthTextFieldR.getText()));
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        if(Integer.parseInt(dayTextFieldR.getText()) > daysInMonth) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "In that month was only "+daysInMonth+" days",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         if(AddressTextFieldR.getText().equals("")) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "Address cannot be empty",
@@ -348,6 +372,7 @@ public class loginActivity extends JFrame implements ActionListener {
             return false;
         }
 
+        System.out.println();
         return true;
     }
 
@@ -383,6 +408,28 @@ public class loginActivity extends JFrame implements ActionListener {
                     lines.get(0),lines.get(1),lines.get(2));
             Statement stmt=con.createStatement();
             ResultSet rs=stmt.executeQuery("select "+login+" from "+table+" where "+email_address+" = '"+ emailTextField.getText()+"'AND "+password+" = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
+            while(rs.next())
+                System.out.println(rs.getInt(1));
+            con.close();
+        }catch(Exception e){ System.out.println(e);}
+    }
+    public void RegisterOperation(String user_status) {
+        try{
+
+            String fileName = "database.properties";
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource = classLoader.getResource(fileName);
+            if (resource == null)
+                throw new IllegalArgumentException("file not found! " + fileName);
+            File file = new File(resource.toURI());
+            List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+
+            Class.forName(lines.get(3));
+            Connection con=DriverManager.getConnection(
+                    lines.get(0),lines.get(1),lines.get(2));
+            Statement stmt=con.createStatement();
+            passwordTextFieldR.getText();
+            ResultSet rs=stmt.executeQuery("select bank.register('"+passwordTextFieldR.getText()+"','"+emailTextFieldR.getText()+"','"+peselTextFieldR.getText()+"','"+nameTextFieldR.getText()+"','"+name2TextFieldR.getText()+"','"+surnameTextFieldR.getText()+"','"+AddressTextFieldR.getText()+"','"+sex.getSelectedItem()+"','"+yearTextFieldR.getText()+"-"+monthTextFieldR.getText()+"-"+dayTextFieldR.getText()+"');");
             while(rs.next())
                 System.out.println(rs.getInt(1));
             con.close();
