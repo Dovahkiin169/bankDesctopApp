@@ -3,7 +3,12 @@ package bankPackage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import java.sql.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 
 
 public class loginActivity extends JFrame implements ActionListener {
@@ -129,9 +134,18 @@ public class loginActivity extends JFrame implements ActionListener {
                 email_address = "email_address_e";
                 password = "password_e";
             }
-            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String fileName = "database.properties";
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource = classLoader.getResource(fileName);
+            if (resource == null)
+                throw new IllegalArgumentException("file not found! " + fileName);
+            File file = new File(resource.toURI());
+            List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+
+            Class.forName(lines.get(3));
             Connection con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/bank","root","");
+                    lines.get(0),lines.get(1),lines.get(2));
             Statement stmt=con.createStatement();
             ResultSet rs=stmt.executeQuery("select "+login+" from "+table+" where "+email_address+" = '"+textUsername.getText()+"'AND "+password+" = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
             while(rs.next())
