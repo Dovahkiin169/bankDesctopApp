@@ -17,7 +17,7 @@ public class loginActivity extends JFrame implements ActionListener {
 
     public loginActivity()  {
         super("BankApp");
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         labelUsername = new JLabel("Enter email: ");
         labelPassword = new JLabel("Enter password: ");
         textUsername = new JTextField(20);
@@ -84,14 +84,16 @@ public class loginActivity extends JFrame implements ActionListener {
             System.out.println("Login Employee");
         else if(source == buttonLogin && !chinButton.isSelected() && canLogin())
             System.out.println("Login User");
+        else if(!canLogin()) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Login or password cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);}
     }
 
     public boolean canLogin() {
         if (EV.validate(textUsername.getText()))
-            if (fieldPassword.getPassword().length != 0)
-                return true;
-            else
-                return false;
+            return fieldPassword.getPassword().length != 0;
         else
             return false;
     }
