@@ -102,14 +102,15 @@ public class loginActivity extends JFrame implements ActionListener {
 
         emailTextFieldR = new JTextField(20);
         passwordTextFieldR = new JPasswordField(20);
-        peselTextFieldR = new JPasswordField(20);
-        nameTextFieldR = new JPasswordField(20);
-        name2TextFieldR = new JPasswordField(20);
-        surnameTextFieldR = new JPasswordField(20);
-        AddressTextFieldR = new JPasswordField(20);
-        yearTextFieldR = new JPasswordField(4);
-        monthTextFieldR = new JPasswordField(2);
-        dayTextFieldR = new JPasswordField(2);
+        peselTextFieldR = new JTextField(20);
+        peselTextFieldR.setDocument(new TextFieldSizeLimit(11));
+        nameTextFieldR = new JTextField(20);
+        name2TextFieldR = new JTextField(20);
+        surnameTextFieldR = new JTextField(20);
+        AddressTextFieldR = new JTextField(20);
+        yearTextFieldR = new JTextField(4);
+        monthTextFieldR = new JTextField(2);
+        dayTextFieldR = new JTextField(2);
 
         GridBagConstraints constraintsRegister = new GridBagConstraints();
         constraintsRegister.anchor = GridBagConstraints.WEST;
@@ -249,6 +250,9 @@ public class loginActivity extends JFrame implements ActionListener {
             add(registerPanel);
             registerPanel.setVisible(true);
         }
+        else if(source == registerButton && canRegister()) {
+            System.out.println("register user");
+        }
     }
 
     public boolean canLogin() {
@@ -270,6 +274,81 @@ public class loginActivity extends JFrame implements ActionListener {
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }
+    }
+
+    public boolean canRegister() {
+        if (!EV.validate(emailTextFieldR.getText())) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Please enter correct email address",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(passwordTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Password cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(peselTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "PESEL cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(peselTextFieldR.getText().length() != 11) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "PESEL must be 11 numbers length",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(nameTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Name cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(surnameTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Surname cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(yearTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Year cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(monthTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Month cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(dayTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Day cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(AddressTextFieldR.getText().equals("")) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "Address cannot be empty",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
     public void LoginOperation(String user_status) {
