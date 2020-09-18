@@ -13,27 +13,39 @@ import java.util.List;
 
 public class loginActivity extends JFrame implements ActionListener {
 
-    public JLabel labelUsername,labelPassword;
-    public JTextField textUsername;
+    JPanel loginPanel;
+    public JLabel emailLabel, passwordLabel;
+    public JTextField emailTextField;
     public JPasswordField fieldPassword;
-    public JButton buttonLogin;
-    public JCheckBox chinButton;
+    public JButton loginButton;
+    public JCheckBox checkBoxEmployee;
+
+    JPanel registerPanel;
+    public JLabel emailLabelR, passwordLabelR, peselLabelR, nameLabelR, name2LabelR,surnameLabelR, sexLabelR, birthDateLabelR,AddressLabelR, yearLabelR, monthLabelR, dayLabelR;
+    public JTextField emailTextFieldR, passwordTextFieldR, peselTextFieldR, nameTextFieldR, name2TextFieldR,surnameTextFieldR, birthDateTextFieldR,AddressTextFieldR, yearTextFieldR, monthTextFieldR, dayTextFieldR;
+    String[] chooseSex = {"m","w"};
+    public JComboBox sex = new JComboBox(chooseSex);
+    public JButton registerButton;
+
+
     emailValidator EV = new emailValidator();
 
     public loginActivity()  {
         super("BankApp");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        labelUsername = new JLabel("Enter email: ");
-        labelPassword = new JLabel("Enter password: ");
-        textUsername = new JTextField(20);
+
+        /* Login Panel */
+        /******************/
+        loginPanel = new JPanel(new GridBagLayout());
+        emailLabel = new JLabel("Enter email: ");
+        passwordLabel = new JLabel("Enter password: ");
+        emailTextField = new JTextField(20);
         fieldPassword = new JPasswordField(20);
-        buttonLogin = new JButton("Login");
-        chinButton = new JCheckBox("as Employee");
+        loginButton = new JButton("Login");
+        checkBoxEmployee = new JCheckBox("as Employee");
 
-        chinButton.setMnemonic(KeyEvent.VK_C);
-        chinButton.setSelected(true);
-
-        JPanel newPanel = new JPanel(new GridBagLayout());
+        checkBoxEmployee.setMnemonic(KeyEvent.VK_C);
+        checkBoxEmployee.setSelected(false);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -41,34 +53,40 @@ public class loginActivity extends JFrame implements ActionListener {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        newPanel.add(labelUsername, constraints);
+        loginPanel.add(emailLabel, constraints);
 
         constraints.gridx = 1;
-        newPanel.add(textUsername, constraints);
+        loginPanel.add(emailTextField, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
-        newPanel.add(labelPassword, constraints);
+        loginPanel.add(passwordLabel, constraints);
 
         constraints.gridx = 1;
-        newPanel.add(fieldPassword, constraints);
+        loginPanel.add(fieldPassword, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 2;
-        newPanel.add(chinButton, constraints);
+        loginPanel.add(checkBoxEmployee, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        newPanel.add(buttonLogin, constraints);
+        loginPanel.add(loginButton, constraints);
 
-        buttonLogin.addActionListener(this);
+        loginButton.addActionListener(this);
 
-        newPanel.setBorder(BorderFactory.createTitledBorder(
+        loginPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Login Panel"));
 
-        add(newPanel);
+        add(loginPanel);
+        /******************/
+        /* Register Panel */
+        /******************/
+
+
+        /******************/
         pack();
         setLocationRelativeTo(null);
     }
@@ -85,18 +103,19 @@ public class loginActivity extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == buttonLogin && chinButton.isSelected() && canLogin()) {
+        if (source == loginButton && checkBoxEmployee.isSelected() && canLogin()) {
             LoginOperation("worker");
             System.out.println("Login Employee");
         }
-        else if(source == buttonLogin && !chinButton.isSelected() && canLogin()) {
+        else if(source == loginButton && !checkBoxEmployee.isSelected() && canLogin()) {
             LoginOperation("user");
             System.out.println("Login User");
+            loginPanel.setVisible(false);
         }
     }
 
     public boolean canLogin() {
-        if (EV.validate(textUsername.getText())) {
+        if (EV.validate(emailTextField.getText())) {
              if(fieldPassword.getPassword().length != 0)
                  return true;
              else {
@@ -147,7 +166,7 @@ public class loginActivity extends JFrame implements ActionListener {
             Connection con=DriverManager.getConnection(
                     lines.get(0),lines.get(1),lines.get(2));
             Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select "+login+" from "+table+" where "+email_address+" = '"+textUsername.getText()+"'AND "+password+" = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
+            ResultSet rs=stmt.executeQuery("select "+login+" from "+table+" where "+email_address+" = '"+ emailTextField.getText()+"'AND "+password+" = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
             while(rs.next())
                 System.out.println(rs.getInt(1));
             con.close();
