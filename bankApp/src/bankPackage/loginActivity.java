@@ -349,6 +349,13 @@ public class loginActivity extends JFrame implements ActionListener {
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        if(Integer.parseInt(yearTextFieldR.getText()) < 1898) {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                    "You cant be that old :)",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         if(Integer.parseInt(monthTextFieldR.getText()) > 12) {
             JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
                     "Incorrect value, in year only 12 month",
