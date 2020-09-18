@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.util.Arrays;
+
 
 public class loginActivity extends JFrame implements ActionListener {
 
@@ -81,11 +81,11 @@ public class loginActivity extends JFrame implements ActionListener {
         Object source = e.getSource();
 
         if (source == buttonLogin && chinButton.isSelected() && canLogin()) {
-            getConnection();
+            LoginOperation("worker");
             System.out.println("Login Employee");
         }
         else if(source == buttonLogin && !chinButton.isSelected() && canLogin()) {
-            getConnection();
+            LoginOperation("user");
             System.out.println("Login User");
         }
     }
@@ -111,13 +111,29 @@ public class loginActivity extends JFrame implements ActionListener {
         }
     }
 
-    public void getConnection() {
+    public void LoginOperation(String user_status) {
         try{
+            String table;
+            String login;
+            String email_address;
+            String password;
+            if(user_status.equals("user")) {
+                login = "login_id";
+                table = "users";
+                email_address = "email_address";
+                password = "password";
+            }
+            else{// worker
+                login = "login_id_e";
+                table = "employes";
+                email_address = "email_address_e";
+                password = "password_e";
+            }
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/bank","root","");
             Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select login_id from users where email_address = '"+textUsername.getText()+"'AND password = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
+            ResultSet rs=stmt.executeQuery("select "+login+" from "+table+" where "+email_address+" = '"+textUsername.getText()+"'AND "+password+" = MD5('"+ String.valueOf(fieldPassword.getPassword()) +"');");
             while(rs.next())
                 System.out.println(rs.getInt(1));
             con.close();
